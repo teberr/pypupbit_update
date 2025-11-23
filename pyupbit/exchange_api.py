@@ -472,8 +472,9 @@ class Upbit:
             }
             headers = self._request_headers(data)
             result = _send_post_request(url, headers=headers, data=data)
+            print("result:",result)
             if contain_req:
-                return result
+                return result[0], result[1]
             else:
                 return result[0]
         except Exception as x:
