@@ -179,7 +179,8 @@ class Upbit:
                 return balance + locked
         except Exception as x:
             print(x.__class__.__name__)
-            return None
+            sleep(0.1)
+            return 0
 
     def get_avg_buy_price(self, ticker='KRW', contain_req=False):
         """
@@ -472,7 +473,6 @@ class Upbit:
             }
             headers = self._request_headers(data)
             result = _send_post_request(url, headers=headers, data=data)
-            print("result:",result)
             if contain_req:
                 return result[0], result[1]
             else:
