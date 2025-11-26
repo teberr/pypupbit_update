@@ -180,7 +180,7 @@ class Upbit:
         except Exception as x:
             print(x.__class__.__name__)
             sleep(0.1)
-            return 0
+            return Decimal('0')
 
     def get_avg_buy_price(self, ticker='KRW', contain_req=False):
         """
