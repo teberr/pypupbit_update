@@ -196,7 +196,6 @@ class Upbit:
                 ticker = ticker.split('-')[1]
 
             balances, req = self.get_balances(contain_req=True)
-
             avg_buy_price = 0
             for x in balances:
                 if x['currency'] == ticker:

@@ -255,7 +255,8 @@ def get_current_price(ticker="KRW-BTC", limit_info=False, verbose=False):
         try:       
             if verbose is False:
                 price = Decimal(str(price[0]['trade_price']))
-        except:
+        except Exception as x:
+            print(x.__class__.__name__)
             return None   
     else:
         slice_size = 200
@@ -268,7 +269,8 @@ def get_current_price(ticker="KRW-BTC", limit_info=False, verbose=False):
         
             if verbose is False:
                 price = {x['market']: x['trade_price'] for x in price}
-        except:
+        except Exception as x:
+            print(x.__class__.__name__)
             return None
     if limit_info:
         return price, req_limit_info
