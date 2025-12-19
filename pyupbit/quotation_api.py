@@ -9,6 +9,7 @@ This module provides quatation api of the Upbit API.
 import datetime
 import pandas as pd
 import time
+from decimal import *
 from pyupbit.request_api import _call_public_api
 
 
@@ -253,7 +254,7 @@ def get_current_price(ticker="KRW-BTC", limit_info=False, verbose=False):
         price, req_limit_info = _get_current_price(ticker, limit_info, verbose) 
         try:       
             if verbose is False:
-                price = price[0]['trade_price']
+                price = Decimal(str(price[0]['trade_price']))
         except:
             return None   
     else:
