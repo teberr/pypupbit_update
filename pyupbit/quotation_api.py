@@ -250,21 +250,25 @@ def get_current_price(ticker="KRW-BTC", limit_info=False, verbose=False):
         [type]: [description]
     """
     if isinstance(ticker, str) or (isinstance(ticker, list) and len(ticker) == 1):
-        price, req_limit_info = _get_current_price(ticker, limit_info, verbose)        
-        if verbose is False:
-            price = price[0]['trade_price']
-        
+        price, req_limit_info = _get_current_price(ticker, limit_info, verbose) 
+        try:       
+            if verbose is False:
+                price = price[0]['trade_price']
+        except:
+            return None   
     else:
         slice_size = 200
         price = []
-        for idx in range(0, len(ticker), slice_size):
-            ticker_sliced = ticker[idx: idx+slice_size]
-            price_sliced, req_limit_info = _get_current_price(ticker_sliced, limit_info, verbose)        
-            price += price_sliced
-
-        if verbose is False:
-            price = {x['market']: x['trade_price'] for x in price}
-    
+        try:
+            for idx in range(0, len(ticker), slice_size):
+                ticker_sliced = ticker[idx: idx+slice_size]
+                price_sliced, req_limit_info = _get_current_price(ticker_sliced, limit_info, verbose)        
+                price += price_sliced
+        
+            if verbose is False:
+                price = {x['market']: x['trade_price'] for x in price}
+        except:
+            return None
     if limit_info:
         return price, req_limit_info
     else:
@@ -287,14 +291,12 @@ def get_orderbook(ticker="KRW-BTC", limit_info=False):
 
     url = "https://api.upbit.com/v1/orderbook"
     orderbook, req_limit_info = _call_public_api(url, markets=ticker)
-
     if isinstance(ticker, str) or \
             (isinstance(ticker, list) and len(ticker) == 1):
-        try:
-            orderbook = orderbook[0]
-        except:
-            print("orderbook 오류: ", orderbook)
-            print("req_limit_info: ", req_limit_info)
+            try:
+                orderbook = orderbook[0]
+            except:
+                pass
 
     if limit_info:
         return orderbook, req_limit_info
